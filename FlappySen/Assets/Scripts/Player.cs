@@ -19,6 +19,17 @@ public class Player : MonoBehaviour
         {
             direction = Vector3.up * strength;
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            direction = Vector3.left * strength;
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            direction = Vector3.right * strength;
+        }
+        
         //if (Input.touchChount > 0)
         //{
         //    Touch touch = Input.GetTouch(0);
