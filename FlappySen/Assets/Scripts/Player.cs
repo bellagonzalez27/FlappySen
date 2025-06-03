@@ -2,16 +2,23 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private SpriteRenderer spriteRenderer;
+    public Sprite[] sprites;
+
+    private int spriteIndex;
     private Vector3 direction;
     public float gravity = -9.8f;
     public float strength = 5;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
-        
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void Start()
+    {
+        InvokeRepeating(nameof(AnimateSprite), 1f, 1f);
+    }
     // Update is called once per frame
     private void Update()
     {
@@ -19,6 +26,7 @@ public class Player : MonoBehaviour
         {
             direction = Vector3.up * strength;
         }
+
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -29,12 +37,27 @@ public class Player : MonoBehaviour
         {
             direction = Vector3.right * strength;
         }
-        
-        //if (Input.touchChount > 0)
-        //{
-        //    Touch touch = Input.GetTouch(0);
-        //}
+
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
+            {
+                direction = Vector3.up * strength;
+            }
+        }
         direction.y += gravity * Time.deltaTime;
         transform.position += direction * Time.deltaTime;
     }
+    private void AnimateSprite() {
+    spriteIndex++;
+    if (spriteIndex >= sprites.Length)
+    {
+        spriteIndex = 0;
+    }
+    spriteRenderer.sprite = sprites[spriteIndex];
 }
+}
+
+
+
